@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class LevelManager : MonoBehaviour
+public class LevelManager : Singleton<LevelManager>
 {
     public GameObject[] tilePrefab;
     public float tileSize;
@@ -13,6 +13,7 @@ public class LevelManager : MonoBehaviour
     private Point destSpawn;
     public GameObject bluePortal;
     public GameObject redPortal;
+    public Transform map;
 
     // Start is called before the first frame update
     void Start()
@@ -67,15 +68,16 @@ public class LevelManager : MonoBehaviour
     {
         int tileIndex = int.Parse(tileType); // "3" => 3 
 
+
         GameObject newTile = Instantiate(tilePrefab[tileIndex]);
         Tile newTileScript = newTile.GetComponent<Tile>();
 
         Vector3 newWorldPos = new Vector3(start.x + (tileSize * x), start.y - (tileSize * y));
 
         Point newPoint = new Point(x, y);
-        newTileScript.Setup(newPoint, newWorldPos);
+        newTileScript.Setup(newPoint, newWorldPos, map);
 
-        tiles.Add(newPoint, newTileScript);
+        //tiles.Add(newPoint, newTileScript);
 
         return newTile.transform.position;
     }
@@ -84,6 +86,10 @@ public class LevelManager : MonoBehaviour
     {
         homeSpawn = new Point(0, 0);
         GameObject newHomePortal = Instantiate(bluePortal);
-        newHomePortal.transform.position = tiles[homeSpawn].transform.position;
+        newHomePortal.transform.position = tiles[homeSpawn].worldPosition;
+
+        destSpawn = new Point(11, 6);
+        GameObject newDestPortal = Instantiate(redPortal);
+        newDestPortal.transform.position = tiles[destSpawn].worldPosition;
     }
 }
