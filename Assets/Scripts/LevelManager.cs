@@ -9,8 +9,8 @@ public class LevelManager : Singleton<LevelManager>
     public float tileSize;
     public CameraMovement camMovement;
     public Dictionary<Point, Tile> tiles;
-    private Point homeSpawn;
-    private Point destSpawn;
+    public Point homeSpawn;
+    public Point destSpawn;
     public GameObject bluePortal;
     public GameObject redPortal;
     public Transform map;

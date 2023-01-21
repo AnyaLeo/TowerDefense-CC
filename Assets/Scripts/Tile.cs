@@ -7,6 +7,12 @@ public class Tile : MonoBehaviour
     public Point gridPosition;
     // The center of our tile
     public Vector3 worldPosition;
+    public bool isFree;
+
+    void Awake() 
+    {
+        isFree = true;
+    }
 
     public void Setup(Point newGridPos, Vector3 newWorldPos, Transform parent) 
     {
@@ -23,5 +29,26 @@ public class Tile : MonoBehaviour
         LevelManager.Instance.tiles.Add(gridPosition, this);
 
         transform.SetParent(parent);
+    }
+
+    private void OnMouseOver() 
+    {
+        bool canPlaceTower = Input.GetMouseButtonDown(0) & isFree;
+        if (canPlaceTower) 
+        {
+            PlaceTower();
+        }
+    }
+
+    void PlaceTower() 
+    {
+        GameObject tower = Instantiate(GameManager.Instance.towerPrefab);
+        tower.transform.position = transform.position;
+
+        isFree = false;
+
+        SpriteRenderer sprite = tower.GetComponent<SpriteRenderer>();
+        // Fix the glitching when towers appear on top of each other
+        sprite.sortingOrder = gridPosition.y + 1;
     }
 }
