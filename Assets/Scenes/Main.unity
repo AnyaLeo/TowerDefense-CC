@@ -682,6 +682,8 @@ MonoBehaviour:
   projectileFrequencyRate: 1.5
   projectileSpeed: 5
   monsterSpeed: 1
+  monsterHealth: 10
+  projectileDamage: 5
 --- !u!1 &1950784886
 GameObject:
   m_ObjectHideFlags: 0

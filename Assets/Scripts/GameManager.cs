@@ -10,6 +10,8 @@ public class GameManager : Singleton<GameManager>
     public float projectileFrequencyRate;
     public float projectileSpeed;
     public float monsterSpeed;
+    public int monsterHealth;
+    public int projectileDamage;
 
     public void StartWave() 
     {

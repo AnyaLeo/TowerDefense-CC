@@ -5,6 +5,7 @@ using UnityEngine;
 public class Tower : MonoBehaviour
 {
     // GOAL: target a monster inside the tower radius
+    Queue<Monster> monsters;
     Monster target;
     // Timer variables
     float currentTime;
@@ -14,6 +15,8 @@ public class Tower : MonoBehaviour
     {
         timeBetweenProjectiles = GameManager.Instance.projectileFrequencyRate;
         currentTime = timeBetweenProjectiles;
+
+        monsters = new Queue<Monster>();
     }
 
     // Update is called once per frame
@@ -25,6 +28,13 @@ public class Tower : MonoBehaviour
     void Attack() 
     {
         currentTime += Time.deltaTime;
+        // Check if we have any monsters in the queue (our monster lineup)
+        bool shouldGrabMonsterFromQueue = (target == null) && (monsters.Count > 0);
+        if (shouldGrabMonsterFromQueue) 
+        {
+            target = monsters.Dequeue();
+        }
+
         // if we have a monster target
         // we want to throw projectiles at them
         if (target != null && currentTime >= timeBetweenProjectiles) 
@@ -44,7 +54,11 @@ public class Tower : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col) 
     {
-        target = col.gameObject.GetComponent<Monster>();
+        Monster newMonster = col.gameObject.GetComponent<Monster>();
+        if (newMonster != null) 
+        {
+            monsters.Enqueue(newMonster);
+        }
     }
 
     void OnTriggerExit2D(Collider2D col) 

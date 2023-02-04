@@ -17,4 +17,15 @@ public class Projectile : MonoBehaviour
     {
         transform.position = Vector3.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
     }
+
+    void OnTriggerEnter2D(Collider2D col) 
+    {
+        bool didCollideWithMonster = col.gameObject.CompareTag("Monster");
+        if (didCollideWithMonster) 
+        {
+            Monster monster = col.gameObject.GetComponent<Monster>();
+            monster.SubtractHealth(GameManager.Instance.projectileDamage);
+            Destroy(gameObject);
+        }
+    }
 }
