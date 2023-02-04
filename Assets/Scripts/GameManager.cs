@@ -6,6 +6,10 @@ public class GameManager : Singleton<GameManager>
 {
     public GameObject towerPrefab;
     public GameObject monsterPrefab;
+    public GameObject projectilePrefab;
+    public float projectileFrequencyRate;
+    public float projectileSpeed;
+    public float monsterSpeed;
 
     public void StartWave() 
     {
